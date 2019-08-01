@@ -1,10 +1,11 @@
 import json
 import datetime
+from django.utils import timezone
 
 from .models import Pokemon, PokemonEntity
 
 def load_pokemons():
-    with open("pokemon_entities/pokemons.json") as database:
+    with open("pokemon_entities/pokemons.json", encoding='utf-8') as database:
         pokemons = json.load(database)['pokemons']
 
     #creating pokemons and their entities
@@ -21,8 +22,8 @@ def load_pokemons():
                 pokemon=pkmn,
                 latitude=pokemon_entity['lat'],
                 longitude=pokemon_entity['lon'],
-                appeared_at = datetime.datetime.now(),
-                dissapeared_at = datetime.datetime.now() + datetime.timedelta(days=1),
+                appeared_at = timezone.now(),
+                dissapeared_at = timezone.now() + datetime.timedelta(days=1),
                 level=pokemon_entity['level']
                 )
             pkmn_entity.save()
